@@ -18,14 +18,14 @@ or a new application (\"sentence\") of an existing predicate."
     register-uuid)
         echo "Usage: smmt.sh register-uuid predicate [<directory>]"
         echo "or:    smmt.sh register-uuid sentence <predicate-identifier> [<directory>]"
-        echo "Register UUID of a predicate definition (\"predicate\")\
+        echo "Register UUID (by location) of a predicate definition (\"predicate\")\
 or an application (\"sentence\") of an existing predicate."
         ;;
 
     register-name)
-        echo "Usage: smmt.sh register-name predicate [<directory>]"
-        echo "or:    smmt.sh register-name sentence <predicate-identifier> [<directory>]"
-        echo "Register name of a predicate definition (\"predicate\")\
+        echo "Usage: smmt.sh register-name predicate <UUID>"
+        echo "or:    smmt.sh register-name sentence <predicate-identifier> <UUID>"
+        echo "Register name (by UUID) of a predicate definition (\"predicate\")\
 or an application (\"sentence\") of an existing predicate."
         ;;
 
