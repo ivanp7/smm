@@ -1,0 +1,60 @@
+function make_entity_dir ()
+{
+    UUID="$1$(cat /proc/sys/kernel/random/uuid)"
+    echo -n $UUID
+
+    mkdir $UUID
+    cd $UUID
+
+    echo $UUID > name
+    touch description
+
+    mkdir data
+
+    ln -s $SMM_ROOT_DIRECTORY root
+}
+
+TYPE=$2
+
+case $TYPE in
+    predicate)
+        check_args_count $# 2 3
+
+        cd_to_argument $3
+
+        make_entity_dir @
+
+        mkdir parameters
+
+        mkdir -p sentences/by-storage
+        mkdir -p sentences/by-uuid/@
+        mkdir -p sentences/by-name/@
+
+        echo '#!/bin/bash' > check-arguments
+        echo >> check-arguments
+        echo 'diff <(cd $1/arguments; find .) \' >> check-arguments
+        echo '     <(cd $(dirname $0)/parameters; find .) > /dev/null' >> check-arguments
+        echo >> check-arguments
+
+        chmod +x check-arguments
+        ;;
+
+    sentence)
+        check_args_count $# 3 4
+
+        PREDICATE=$(predicate_identifier $3)
+
+        cd_to_argument $4
+
+        make_entity_dir +
+
+        mkdir arguments
+
+        ln -s root/predicates/$PREDICATE predicate
+        ln -s '?' owner
+        ;;
+
+    *)
+        error 1 "Error: unknown type '$TYPE'"
+esac
+
