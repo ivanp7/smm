@@ -15,18 +15,14 @@ case $TYPE in
         NAME=$(cat by-uuid/$PRED_UUID/name)
         check_subpath by-name/$NAME predicates/by-name/
 
-        DIR=by-name/$(dirname $NAME)
-        mkdir -p $DIR
-        
-        FULL_PATH=$DIR/$(basename $NAME)
-        if [[ -d "$FULL_PATH" ]]
+        mkdir -p by-name/$(dirname $NAME)
+        if [[ -d "by-name/$NAME" ]]
         then
             error 1 "Error: name conflict detected."
         fi
 
-        PREFIX=$(realpath --relative-to=$DIR .)
-
-        ln -sf $PREFIX/by-uuid/$PRED_UUID $FULL_PATH
+        PREFIX=$(realpath --relative-to="by-name/$(dirname $NAME)" .)
+        ln -sf $PREFIX/by-uuid/$PRED_UUID by-name/$NAME
         ;;
 
     sentence)
@@ -47,18 +43,16 @@ case $TYPE in
         NAME=$(cat by-uuid/@/$SENT_UUID/name)
         check_subpath by-name/@/$NAME predicates/$OWNER/sentences/by-name/@/
 
-        DIR=by-name/@/$(dirname $NAME)
-        mkdir -p $DIR
+        mkdir -p by-name/@/$(dirname $NAME)
+        mkdir -p by-name/$PREDICATE/$(dirname $NAME)
 
-        FULL_PATH=$DIR/$(basename $NAME)
-        if [[ -d "$FULL_PATH" ]]
+        if [[ -d "by-name/@/$NAME" ]]
         then
             error 1 "Error: name conflict detected."
         fi
 
-        PREFIX=$(realpath --relative-to=$DIR .)
-
-        ln -sf $PREFIX/by-uuid/@/$SENT_UUID $FULL_PATH
+        PREFIX=$(realpath --relative-to="by-name/@/$(dirname $NAME)" .)
+        ln -sf $PREFIX/by-uuid/@/$SENT_UUID by-name/@/$NAME
         mkdir -p by-name/$PREDICATE
         ln -sf $PREFIX/by-uuid/@/$SENT_UUID by-name/$PREDICATE/$NAME
         ;;
