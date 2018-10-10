@@ -29,6 +29,11 @@ or an application (\"sentence\") of an existing predicate."
 or an application (\"sentence\") of an existing predicate."
         ;;
 
+    generate-dep-graph)
+        echo "Usage: smmt.sh generate-dep-graph <file>"
+        echo "Generate predicate dependency graph and save to a file in a DOT format."
+        ;;
+
     *)
         echo "Usage: smmt.sh help [command]"
         echo "Get help for the specified command."

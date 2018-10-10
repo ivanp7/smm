@@ -1,0 +1,40 @@
+check_args_count $# 2
+
+DOT=$(realpath $2)
+touch $DOT
+if [[ $? -ne 0 ]]
+then
+    error 1 "Error: cannot access the specified file."
+fi
+echo > $DOT
+
+function append_to_dot ()
+{
+    echo $1 >> $DOT
+}
+
+append_to_dot "digraph \"smm:$(cat /etc/hostname)\" {"
+append_to_dot "  label=<<b>Semantic machine memory @ <i>$(cat /etc/hostname)</i></b>>;"
+append_to_dot "  labelloc = \"t\";"
+append_to_dot "  node [shape=record];"
+append_to_dot
+
+cd $SMM_ROOT_DIRECTORY/predicates/by-uuid
+for predicate in $(find -type l)
+do
+    predicate=$(basename $predicate)
+    append_to_dot "  \"$predicate\" [label=\"{$predicate|$(cat $predicate/name)|$(cat $predicate/description)}\"];"
+
+    SENT_UUID=$predicate/sentences/by-uuid
+    for dependency in $(find $SENT_UUID ! -path $SENT_UUID ! -path $SENT_UUID/@ -type d)
+    do
+        dependency=$(basename $dependency)
+        append_to_dot "  \"$dependency\" -> \"$predicate\" [style=solid];"
+    done
+
+    append_to_dot
+done
+
+append_to_dot "}"
+append_to_dot
+
