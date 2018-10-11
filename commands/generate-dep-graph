@@ -10,7 +10,7 @@ echo > $DOT
 
 function append_to_dot ()
 {
-    echo $1 >> $DOT
+    echo "$1" >> $DOT
 }
 
 append_to_dot "digraph \"smm:$(cat /etc/hostname)\" {"
