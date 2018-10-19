@@ -38,7 +38,7 @@ case $TYPE in
 
         cd $SMM_ROOT_DIRECTORY/predicates/$OWNER/sentences
 
-        PREDICATE=$(basename $(readlink -f by-uuid/@/$SENT_UUID/predicate))
+        PREDICATE=@$(cat by-uuid/@/$SENT_UUID/predicate/uuid)
 
         NAME=$(cat by-uuid/@/$SENT_UUID/name)
         check_subpath by-name/@/$NAME predicates/$OWNER/sentences/by-name/@/

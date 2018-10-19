@@ -58,12 +58,6 @@ function predicate_identifier ()
             error 1 "Error: no such predicate."
         fi
 
-        local UUID=$(basename $(readlink -f $DIR))
-        if [[ $UUID != "@"* ]]
-        then
-            error 1 "Error: incorrect predicate UUID format."
-        fi
-
         echo -n "by-name/$1"
     fi
 }
