@@ -7,7 +7,7 @@ function make_entity_dir ()
     cd "$1$UUID"
 
     echo $UUID > uuid
-    echo $2 > type
+    echo $1 > type
     echo $UUID > name
     touch description
 
@@ -24,7 +24,7 @@ case $TYPE in
 
         cd_to_argument $3
 
-        make_entity_dir @ predicate
+        make_entity_dir @
 
         mkdir parameters
 
@@ -48,7 +48,7 @@ case $TYPE in
 
         cd_to_argument $4
 
-        make_entity_dir + sentence
+        make_entity_dir +
 
         mkdir arguments
 
