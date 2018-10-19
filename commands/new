@@ -1,11 +1,13 @@
 function make_entity_dir ()
 {
-    UUID="$1$(cat /proc/sys/kernel/random/uuid)"
-    echo -n $UUID
+    UUID="$(cat /proc/sys/kernel/random/uuid)"
+    echo -n "$1$UUID"
 
-    mkdir $UUID
-    cd $UUID
+    mkdir "$1$UUID"
+    cd "$1$UUID"
 
+    echo $UUID > uuid
+    echo $2 > type
     echo $UUID > name
     touch description
 
@@ -22,7 +24,7 @@ case $TYPE in
 
         cd_to_argument $3
 
-        make_entity_dir @
+        make_entity_dir @ predicate
 
         mkdir parameters
 
@@ -46,7 +48,7 @@ case $TYPE in
 
         cd_to_argument $4
 
-        make_entity_dir +
+        make_entity_dir + sentence
 
         mkdir arguments
 
