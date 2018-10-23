@@ -1,0 +1,41 @@
+package "semantic-machine-memory-tool"
+version "0.1"
+purpose "A tool to edit directory structure of the semantic machine memory."
+# usage "<usage>"
+# description "<description>"
+versiontext "(C) Ivan Podmazov <podmazov@gmail.com>\nDistributed under the terms of the MIT license"
+
+args "--include-getopt --default-optional"
+
+# option <long> <short> "<desc>"
+#          {details="<detailed description>"}
+#          {argtype} {typestr="<type descr>"}
+#          {values="<value1>","<value2>",...}
+#          {default="<default value>"}
+#          {dependon="<other option>"}
+#          {required} {argoptional} {multiple}
+#          {hidden}
+
+# option <long> <short> "<desc>" flag <on/off>
+
+# section "section name" {sectiondesc="optional section description"}
+
+# text "a textual sentence"
+
+section "Actions"
+
+option "new" n "create new entity in filesystem" flag off
+option "delete" d "remove an entity from filesystem" flag off
+
+option "register-uuid" r "register entity UUID" flag off
+option "register-name" R "register entity name" flag off
+
+option "unregister-uuid" u "unregister entity UUID" flag off
+option "unregister-name" U "unregister entity name" flag off
+
+section "Entity specification"
+
+option "type" t "type of an entity"
+         string typestr="enttype"
+         values="predicate","@","sentence","+"
+
