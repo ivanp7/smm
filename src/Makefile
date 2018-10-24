@@ -11,7 +11,7 @@ CFLAGS = -I$(IDIR) -Wall
 LIBS   = 
 
 GGO    = gengetopt
-CMDLINEARGS_FILE_PREFIX = smmt_args
+CMDLINEARGS_FILE_PREFIX = smmt_cmdline
 
 _DEPS = $(CMDLINEARGS_FILE_PREFIX).ggo.h libsmm.h smmt.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
@@ -22,7 +22,7 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 # $(LIB_NAME).a: $(LIB_NAME).o
 # 	$(AR) $(AR_FLAGS) $@ $^
 
-$(TOOL_NAME): $(TOOL_NAME).o $(CMDLINEARGS_FILE_PREFIX).ggo.o
+$(TOOL_NAME): $(CMDLINEARGS_FILE_PREFIX).ggo.o $(TOOL_NAME).o
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 $(ODIR)/%.o: %.c $(DEPS)
@@ -33,7 +33,7 @@ $(CMDLINEARGS_FILE_PREFIX).ggo.c: $(CMDLINEARGS_FILE_PREFIX).ggo
 
 .PHONY: clean clean-all
 clean:
-	rm -f $(ODIR)/*.o
+	rm -f $(ODIR)/*.o $(CMDLINEARGS_FILE_PREFIX).ggo.*
 
 clean-all: clean
 	rm -f $(LIB_NAME).a $(TOOL_NAME)

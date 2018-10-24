@@ -1,0 +1,85 @@
+package "semantic-machine-memory-tool"
+version "0.1"
+purpose "A tool to edit semantic machine memory at the lowest level -- filesystem directory tree."
+versiontext "(C) Ivan Podmazov <podmazov@gmail.com>\nDistributed under the terms of the GPLv2 license"
+
+args "--include-getopt --default-optional --no-help --no-version"
+
+usage "smmt ACTION <action-specific options>"
+
+description "ACTIONs include:
+
+* help -- print help to stdout;
+* version -- print version info to stdout;
+
+* path -- print path to semantic machine memory root, part or entity to stdout;
+
+* new -- create new entity in filesystem (predicate, sentence, sentence argument, file, directory);
+* copy -- copy an entity in filesystem;
+* move -- move an entity in filesystem;
+* delete -- physically remove an entity from filesystem;
+
+* register -- register entity UUID, so entity can be referenced by UUID;
+* register-name -- register entity name, so entity name can be used as a synonym to entity UUID;
+
+* unregister -- unregister entity UUID and name;
+* unregister-name -- unregister entity name;
+
+* get -- print an entity property value to stdout;
+* set -- read value from stdin and assign it to an entity property.
+"
+#################################################################################
+
+section "COMMON OPTIONS"
+    sectiondesc="Options that are common for several actions"
+
+# option <long> <short> "<desc>"
+#          {details="<detailed description>"}
+#          {argtype} {typestr="<type descr>"}
+#          {values="<value1>","<value2>",...}
+#          {default="<default value>"}
+#          {dependon="<other option>"}
+#          {required} {argoptional} {multiple}
+#          {hidden}
+
+# option <long> <short> "<desc>" flag <on/off>
+
+# section "section name" {sectiondesc="optional section description"}
+
+# text "a textual sentence"
+#
+#################################################################################
+
+section "NEW OPTIONS"
+
+
+#################################################################################
+
+section "Entity specification"
+
+option "type" t "type of an entity"
+    string typestr="TYPE" values="predicate","@","sentence","+"
+
+option "predicate-path" p "path to a predicate in 'by-storage' directory"
+    string typestr="PATH"
+
+option "sentence-path" P "path to a sentence in 'by-storage' directory"
+    string typestr="PATH"
+
+option "predicate-uuid" i "UUID of a predicate"
+    string typestr="UUID"
+    dependon="type"
+
+option "sentence-uuid" I "UUID of a sentence"
+    string typestr="UUID"
+    dependon="type"
+
+option "name" n "name of an entity"
+    string typestr="NAME"
+
+#################################################################################
+
+section "Entity property specification"
+
+option "property" o "name of a property" string typestr="PROPERTY" values="type","uuid","name","description"
+
