@@ -63,8 +63,16 @@ text "
 "
 
 groupoption "get" - "print an entity property value to standard output"
-    group="ACTIONS"
+    group="ACTIONS" string typestr="PROPERTY" values="type","uuid","name","description"
 groupoption "set" - "read value from stdin and assign it to an entity property"
+    group="ACTIONS" string typestr="PROPERTY" values="type","uuid","name","description"
+
+text "
+    "
+
+groupoption "read" - "print a file contents to standard output"
+    group="ACTIONS"
+groupoption "write" - "read data from stdin and write it to a file"
     group="ACTIONS"
 
 #################################################################################

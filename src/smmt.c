@@ -30,6 +30,8 @@ int act_unregister_name(struct gengetopt_args_info *ai);
 int act_path(struct gengetopt_args_info *ai);
 int act_get(struct gengetopt_args_info *ai);
 int act_set(struct gengetopt_args_info *ai);
+int act_read(struct gengetopt_args_info *ai);
+int act_write(struct gengetopt_args_info *ai);
 
 int main(int argc, char *argv[])
 {
@@ -74,6 +76,8 @@ int main(int argc, char *argv[])
     else if (ai.path_given) { return act_path(&ai); }
     else if (ai.get_given) { return act_get(&ai); }
     else if (ai.set_given) { return act_set(&ai); }
+    else if (ai.read_given) { return act_read(&ai); }
+    else if (ai.write_given) { return act_write(&ai); }
     else
     {
         print_parsing_error("unknown");
@@ -144,6 +148,16 @@ int act_get(struct gengetopt_args_info *ai)
 }
 
 int act_set(struct gengetopt_args_info *ai)
+{
+    return 0;
+}
+
+int act_read(struct gengetopt_args_info *ai)
+{
+    return 0;
+}
+
+int act_write(struct gengetopt_args_info *ai)
 {
     return 0;
 }
