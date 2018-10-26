@@ -1,0 +1,47 @@
+TYPE=$2
+
+case $TYPE in
+    predicate)
+        check_args_count $# 2 3
+
+        cd_to_argument $3
+        if [[ ! -f type ]] || [[ $(cat type) != "@" ]] || 
+            [[ ! -f uuid ]] || [[ -z $(cat uuid) ]] || 
+            [[ ! -f name ]] || [[ -z $(cat name) ]]
+        then
+            error 1 "Error: no predicate is at specified path."
+        fi
+
+        ln -sf $PWD $SMM_ROOT_DIRECTORY/predicates/by-uuid/@$(cat uuid)
+        ;;
+
+    sentence)
+        check_args_count $# 3 4
+
+        OWNER=$(predicate_identifier $3)
+
+        cd_to_argument $4
+        if [[ ! -f type ]] || [[ $(cat type) != "+" ]] || 
+            [[ ! -f uuid ]] || [[ -z $(cat uuid) ]] || 
+            [[ ! -f name ]] || [[ -z $(cat name) ]]
+        then
+            error 1 "Error: no sentence is at specified path."
+        fi
+
+        ln -sf root/predicates/$OWNER owner
+
+        PREDICATE=$(cat predicate/uuid)
+
+        SENTENCE=$(cat uuid)
+        SENTENCE_DIR=$PWD
+        cd $SMM_ROOT_DIRECTORY/predicates/$OWNER/sentences/by-uuid
+
+        ln -sf $SENTENCE_DIR @/+$SENTENCE
+        mkdir -p @$PREDICATE
+        ln -sf $SENTENCE_DIR @$PREDICATE/+$SENTENCE
+        ;;
+
+    *)
+        error 1 "Error: unknown type '$TYPE'"
+esac
+

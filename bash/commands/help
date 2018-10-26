@@ -1,0 +1,44 @@
+check_args_count $# 1 2
+
+CMD=$2
+
+case $CMD in
+    init)
+        echo "Usage: smmt.sh init"
+        echo "Initialize the semantic machine memory directory."
+        ;;
+
+    new)
+        echo "Usage: smmt.sh new predicate [<directory>]"
+        echo "or:    smmt.sh new sentence <predicate-identifier> [<directory>]"
+        echo "Create a new predicate definition (\"predicate\")\
+or a new application (\"sentence\") of an existing predicate."
+        ;;
+
+    register-uuid)
+        echo "Usage: smmt.sh register-uuid predicate [<directory>]"
+        echo "or:    smmt.sh register-uuid sentence <predicate-identifier> [<directory>]"
+        echo "Register UUID (by location) of a predicate definition (\"predicate\")\
+or an application (\"sentence\") of an existing predicate."
+        ;;
+
+    register-name)
+        echo "Usage: smmt.sh register-name predicate <UUID>"
+        echo "or:    smmt.sh register-name sentence <predicate-identifier> <UUID>"
+        echo "Register name (by UUID) of a predicate definition (\"predicate\")\
+or an application (\"sentence\") of an existing predicate."
+        ;;
+
+    generate-dep-graph)
+        echo "Usage: smmt.sh generate-dep-graph <file>"
+        echo "Generate predicate dependency graph and save to a file in a DOT format."
+        ;;
+
+    *)
+        echo "Usage: smmt.sh help [command]"
+        echo "Get help for the specified command."
+        echo "List of available commands:"
+        ls -1 $SMMT_DIRECTORY/commands/
+        ;;
+esac
+

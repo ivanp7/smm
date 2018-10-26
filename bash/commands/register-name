@@ -1,0 +1,63 @@
+TYPE=$2
+
+case $TYPE in
+    predicate)
+        check_args_count $# 3
+
+        PRED_UUID=$3
+        if [[ $PRED_UUID != "@"* ]] || [[ $PRED_UUID == *"/"* ]]
+        then
+            error 1 "Error: incorrect predicate UUID format."
+        fi
+
+        cd $SMM_ROOT_DIRECTORY/predicates
+
+        NAME=$(cat by-uuid/$PRED_UUID/name)
+        check_subpath by-name/$NAME predicates/by-name/
+
+        mkdir -p by-name/$(dirname $NAME)
+        if [[ -d "by-name/$NAME" ]]
+        then
+            error 1 "Error: name conflict detected."
+        fi
+
+        PREFIX=$(realpath --relative-to="by-name/$(dirname $NAME)" .)
+        ln -sf $PREFIX/by-uuid/$PRED_UUID by-name/$NAME
+        ;;
+
+    sentence)
+        check_args_count $# 4
+
+        OWNER=$(predicate_identifier $3)
+
+        SENT_UUID=$4
+        if [[ $SENT_UUID != "+"* ]] || [[ $SENT_UUID == *"/"* ]]
+        then
+            error 1 "Error: incorrect sentence UUID format."
+        fi
+
+        cd $SMM_ROOT_DIRECTORY/predicates/$OWNER/sentences
+
+        PREDICATE=@$(cat by-uuid/@/$SENT_UUID/predicate/uuid)
+
+        NAME=$(cat by-uuid/@/$SENT_UUID/name)
+        check_subpath by-name/@/$NAME predicates/$OWNER/sentences/by-name/@/
+
+        mkdir -p by-name/@/$(dirname $NAME)
+        mkdir -p by-name/$PREDICATE/$(dirname $NAME)
+
+        if [[ -d "by-name/@/$NAME" ]]
+        then
+            error 1 "Error: name conflict detected."
+        fi
+
+        PREFIX=$(realpath --relative-to="by-name/@/$(dirname $NAME)" .)
+        ln -sf $PREFIX/by-uuid/@/$SENT_UUID by-name/@/$NAME
+        mkdir -p by-name/$PREDICATE
+        ln -sf $PREFIX/by-uuid/@/$SENT_UUID by-name/$PREDICATE/$NAME
+        ;;
+
+    *)
+        error 1 "Error: unknown type '$TYPE'"
+esac
+
