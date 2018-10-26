@@ -3,11 +3,11 @@ version "0.1"
 purpose "A tool to edit semantic machine memory at the lowest level -- filesystem directory tree."
 versiontext "(C) Ivan Podmazov <podmazov@gmail.com>\nDistributed under the terms of the GPLv2 license"
 
-args "--no-help --no-version"
+args "--default-optional --no-help --no-version"
 
 usage "smmt ACTION [OPTIONS]..."
 
-# description ""
+description "Unrelated to the specified action options are ignored."
 
 #################################################################################
 
@@ -21,6 +21,12 @@ text "
 groupoption "help" h "print help to standard output"
     group="ACTIONS"
 groupoption "version" V "print version to standard output"
+    group="ACTIONS"
+
+text "
+    "
+
+groupoption "init" - "initialize semantic machine memory root directory"
     group="ACTIONS"
 
 text "
@@ -65,6 +71,9 @@ groupoption "set" - "read value from stdin and assign it to an entity property"
 
 section "COMMON OPTIONS"
 
+option "object-type" o "type of an entity"
+    string typestr="TYPE" values="predicate","@","sentence","+"
+
 # option <long> <short> "<desc>"
 #          {details="<detailed description>"}
 #          {argtype} {typestr="<type descr>"}
@@ -86,6 +95,8 @@ section "ACTION-SPECIFIC OPTIONS"
 
 #################################################################################
 
+defmode "new"
+
 defmode "path"
 
 modeoption "target" - "target"
@@ -100,31 +111,28 @@ modeoption "absolute" - "Output absolute path instead of relative to SMM root"
 
 #################################################################################
 
-section "Entity specification"
+# section "Entity specification"
 
-option "type" t "type of an entity"
-    string typestr="TYPE" values="predicate","@","sentence","+"
+# option "predicate-path" p "path to a predicate in 'by-storage' directory"
+#     string typestr="PATH"
 
-option "predicate-path" p "path to a predicate in 'by-storage' directory"
-    string typestr="PATH"
+# option "sentence-path" P "path to a sentence in 'by-storage' directory"
+#     string typestr="PATH"
 
-option "sentence-path" P "path to a sentence in 'by-storage' directory"
-    string typestr="PATH"
+# option "predicate-uuid" i "UUID of a predicate"
+#     string typestr="UUID"
+#     dependon="type"
 
-option "predicate-uuid" i "UUID of a predicate"
-    string typestr="UUID"
-    dependon="type"
+# option "sentence-uuid" I "UUID of a sentence"
+#     string typestr="UUID"
+#     dependon="type"
 
-option "sentence-uuid" I "UUID of a sentence"
-    string typestr="UUID"
-    dependon="type"
-
-option "name" n "name of an entity"
-    string typestr="NAME"
+# option "name" n "name of an entity"
+#     string typestr="NAME"
 
 #################################################################################
 
-section "Entity property specification"
+# section "Entity property specification"
 
-option "property" o "name of a property" string typestr="PROPERTY" values="type","uuid","name","description"
+# option "property" o "name of a property" string typestr="PROPERTY" values="type","uuid","name","description"
 
