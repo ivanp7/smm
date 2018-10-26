@@ -3,35 +3,67 @@ version "0.1"
 purpose "A tool to edit semantic machine memory at the lowest level -- filesystem directory tree."
 versiontext "(C) Ivan Podmazov <podmazov@gmail.com>\nDistributed under the terms of the GPLv2 license"
 
-args "--include-getopt --default-optional --no-help --no-version"
+args "--no-help --no-version"
 
-usage "smmt ACTION <action-specific options>"
+usage "smmt ACTION [OPTIONS]..."
 
-description "ACTIONs include:
+# description ""
 
-* help -- print help to stdout;
-* version -- print version info to stdout;
+#################################################################################
 
-* path -- print path to semantic machine memory root, part or entity to stdout;
+section "ACTIONS"
 
-* new -- create new entity in filesystem (predicate, sentence, sentence argument, file, directory);
-* copy -- copy an entity in filesystem;
-* move -- move an entity in filesystem;
-* delete -- physically remove an entity from filesystem;
+defgroup "ACTIONS" groupdesc="Supported actions (modes):" required
 
-* register -- register entity UUID, so entity can be referenced by UUID;
-* register-name -- register entity name, so entity name can be used as a synonym to entity UUID;
-
-* unregister -- unregister entity UUID and name;
-* unregister-name -- unregister entity name;
-
-* get -- print an entity property value to stdout;
-* set -- read value from stdin and assign it to an entity property.
+text "
 "
+
+groupoption "help" h "print help to standard output"
+    group="ACTIONS"
+groupoption "version" V "print version to standard output"
+    group="ACTIONS"
+
+text "
+"
+
+groupoption "new" - "create new object in filesystem (predicate, sentence, sentence argument, file, directory)"
+    group="ACTIONS"
+groupoption "copy" - "copy an object in filesystem"
+    group="ACTIONS"
+groupoption "move" - "move an object in filesystem"
+    group="ACTIONS"
+groupoption "delete" - "physically remove an object from filesystem"
+    group="ACTIONS"
+
+text "
+"
+
+groupoption "register" - "register entity UUID, so entity can be referenced by UUID"
+    group="ACTIONS"
+groupoption "register-name" - "register entity name, so entity name can be used as a synonym to entity UUID"
+    group="ACTIONS"
+groupoption "unregister" - "unregister entity UUID and name"
+    group="ACTIONS"
+groupoption "unregister-name" - "unregister entity name"
+    group="ACTIONS"
+
+text "
+"
+
+groupoption "path" - "print path to semantic machine memory root, subdirectory or object to standard output" 
+    group="ACTIONS"
+
+text "
+"
+
+groupoption "get" - "print an entity property value to standard output"
+    group="ACTIONS"
+groupoption "set" - "read value from stdin and assign it to an entity property"
+    group="ACTIONS"
+
 #################################################################################
 
 section "COMMON OPTIONS"
-    sectiondesc="Options that are common for several actions"
 
 # option <long> <short> "<desc>"
 #          {details="<detailed description>"}
@@ -50,8 +82,21 @@ section "COMMON OPTIONS"
 #
 #################################################################################
 
-section "NEW OPTIONS"
+section "ACTION-SPECIFIC OPTIONS"
 
+#################################################################################
+
+defmode "path"
+
+modeoption "target" - "target"
+    mode="path" dependon="path"
+    string typestr="TARGET"
+    values="root","data","storage","predicate","p-data","p-parameters","p-storage",
+        "sentence","s-data","s-arguments","s-predicate"
+    default="root" optional multiple
+
+modeoption "absolute" - "Output absolute path instead of relative to SMM root" 
+    mode="path" dependon="path" flag off 
 
 #################################################################################
 

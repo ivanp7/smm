@@ -19,17 +19,20 @@ DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 _OBJ = $(CMDLINEARGS_FILE_PREFIX).ggo.o libsmm.o smmt.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
-# $(LIB_NAME).a: $(LIB_NAME).o
-# 	$(AR) $(AR_FLAGS) $@ $^
+.PHONY: all
+all: $(LIB_NAME).a $(TOOL_NAME)
 
-$(TOOL_NAME): $(CMDLINEARGS_FILE_PREFIX).ggo.o $(TOOL_NAME).o
+$(LIB_NAME).a: $(LIB_NAME).o
+	$(AR) $(AR_FLAGS) $@ $^
+
+$(TOOL_NAME): $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 $(ODIR)/%.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(CMDLINEARGS_FILE_PREFIX).ggo.c: $(CMDLINEARGS_FILE_PREFIX).ggo
-	$(GGO) --input=$< --file-name=$(CMDLINEARGS_FILE_PREFIX).ggo
+	$(GGO) --include-getopt --input=$< --file-name=$(CMDLINEARGS_FILE_PREFIX).ggo
 
 .PHONY: clean clean-all
 clean:
