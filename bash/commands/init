@@ -1,18 +1,9 @@
 check_args_count $# 1
 
-if [[ -d $SMM_ROOT_DIRECTORY ]]
+if [[ ! -d $SMM_ROOT_DIRECTORY ]]
 then
-    error 1 "Error: directory at \$SMM_ROOT_DIRECTORY already exists."
+    mkdir -p $SMM_ROOT_DIRECTORY
 fi
 
-mkdir -p $SMM_ROOT_DIRECTORY
 cd $SMM_ROOT_DIRECTORY
-
-mkdir data
-mkdir predicates
-cd predicates
-
-mkdir by-storage
-mkdir by-uuid
-mkdir by-name
 

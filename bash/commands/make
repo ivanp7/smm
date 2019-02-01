@@ -1,0 +1,12 @@
+check_args_count $# 1
+
+UUID="$(cat /proc/sys/kernel/random/uuid)"
+echo -n "$UUID"
+
+mkdir "$UUID"
+cd "$UUID"
+
+mkdir data
+mkdir args
+echo $UUID > @
+

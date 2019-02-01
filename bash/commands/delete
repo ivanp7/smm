@@ -1,0 +1,4 @@
+check_args_count $# 2
+
+rm -rf "$2"
+

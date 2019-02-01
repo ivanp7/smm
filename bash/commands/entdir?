@@ -1,0 +1,7 @@
+check_args_count $# 1
+
+if [ ! -f "@" ]; then exit 1; fi
+
+[[ "$(basename $PWD)" == "$(cat @)" ]]
+exit $?
+

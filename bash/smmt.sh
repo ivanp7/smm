@@ -46,22 +46,6 @@ function check_subpath ()
     fi
 }
 
-function predicate_identifier ()
-{
-    if [[ $1 == "@"* ]] && [[ $1 != *"/"* ]]
-    then
-        echo -n "by-uuid/$1"
-    else
-        local DIR=$SMM_ROOT_DIRECTORY/predicates/by-name/$1
-        if [[ ! -d $DIR ]]
-        then
-            error 1 "Error: no such predicate."
-        fi
-
-        echo -n "by-name/$1"
-    fi
-}
-
 ###############################################################################
 
 if [[ -z $SMM_ROOT_DIRECTORY ]]
@@ -71,6 +55,7 @@ then
 fi
 
 SMMT_DIRECTORY=$(realpath $(dirname $0))
+SMMT=$SMMT_DIRECTORY/smmt.sh
 
 if [[ -f "$SMMT_DIRECTORY/commands/$1" ]]
 then
